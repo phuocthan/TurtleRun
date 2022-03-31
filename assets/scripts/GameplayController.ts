@@ -1,14 +1,11 @@
-// Learn TypeScript:
-//  - https://docs.cocos.com/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
+import SpawnableObject from "./SpawnableObject";
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class GamePlayerController extends cc.Component {
+
+    readonly timeToSpawnNewBackground = 1; // 1 second.
 
     @property(cc.Node)
     background1: cc.Node = null;
@@ -16,35 +13,74 @@ export default class NewClass extends cc.Component {
     @property(cc.Node)
     groundNode: cc.Node = null;
 
-    // LIFE-CYCLE CALLBACKS:
+    @property([SpawnableObject])
+    spawnableObjects: SpawnableObject[] = [];
 
-    // onLoad () {}
+    private spawnableObjectConfig = [];
 
-    timeToSpawn = 0;
-    lastBG: cc.Node = null;
-    lastGround: cc.Node = null;
+    private timeToSpawn = 0;
+    private lastBG: cc.Node = null;
+    private lastGround: cc.Node = null;
 
     start () {
         this.lastBG = this.background1;
         this.lastGround = this.groundNode;
+        this.spawnBackground();
+        this.setupToSpawnObjects();
+    }
+
+    private setupToSpawnObjects() {
+        this.spawnableObjectConfig = [];
+        this.spawnableObjects.forEach((object: SpawnableObject) => {
+            this.spawnableObjectConfig.push({
+                currentTime: object.timeToSpawn,
+                spawnTime: object.timeToSpawn,
+                rate: object.rateToSpawn,
+                node: object.node
+            })
+        })
+    }
+
+    private spawnObjects(dt) {
+        this.spawnableObjectConfig.forEach(config => {
+            config.currentTime -= dt;
+            if (config.currentTime <= 0) {
+                config.currentTime = config.spawnTime;
+                if (Math.random() >  config.rate) {
+                    return;
+                }
+                const cloneObject = cc.instantiate(config.node);
+                cloneObject.active = true;
+                cloneObject.x = cc.Camera.main.node.x + 2000 + Math.random() * 1000;
+                config.node.parent.addChild(cloneObject);
+                console.log("Spawn", config.node.name);
+
+            }
+        })
+    }
+
+    private spawnBackground() {
+        var bg = cc.instantiate(this.background1);
+        bg.x = this.lastBG.x + this.lastBG.width;
+        bg.y = this.lastBG.y;
+        this.lastBG.parent.addChild(bg);
+        this.lastBG = bg;
+
+        var ground = cc.instantiate(this.groundNode);
+        ground.x = this.lastGround.x + this.lastGround.width;
+        ground.y = this.lastGround.y;
+        this.lastGround.parent.addChild(ground);
+        this.lastGround = ground;
+
+        // To Do: Destroy ground & background node.
     }
 
     update (dt) {
         this.timeToSpawn -= dt;
-        console.log(this.timeToSpawn);
         if (this.timeToSpawn <= 0) {
-            this.timeToSpawn = 1;
-            var bg = cc.instantiate(this.background1);
-            bg.x = this.lastBG.x + this.lastBG.width;
-            bg.y = this.lastBG.y;
-            this.lastBG.parent.addChild(bg);
-            this.lastBG = bg;
-
-            var ground = cc.instantiate(this.groundNode);
-            ground.x = this.lastGround.x + this.lastGround.width;
-            ground.y = this.lastGround.y;
-            this.lastGround.parent.addChild(ground);
-            this.lastGround = ground;
+            this.spawnBackground();
+            this.timeToSpawn = this.timeToSpawnNewBackground;
         }
+        this.spawnObjects(dt);
     }
 }

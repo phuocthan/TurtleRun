@@ -1,45 +1,48 @@
-// Learn TypeScript:
-//  - https://docs.cocos.com/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
-
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class PlayerController extends cc.Component {
 
-    readonly GROUND_Y = -155.371;
-    readonly JUMP_POWER = 1400000;
-    readonly SECOND_JUMP_POWER = 1000000;
-    readonly GRAVITY = -800;
-    
-    allowDoubleJump: boolean = true;
+    readonly JUMP_POWER = 700000 * 8;
+    readonly SECOND_JUMP_POWER = 700000 * 6;
+    readonly GRAVITY = -6000;
 
-    private velocity = {x: 0, y: 0};
-    private isJumping: boolean = false;
-    private isDoubleJumping: boolean = false;
+    readonly MAX_SPEED = 500;
+    readonly MIN_SPEED = 200;
+    readonly SPEED_INCREASE = 50;
+    readonly SPEED_INCREASE_DURATION = 2;
     
+    private rigidBody: cc.RigidBody = null;
+
+    private isJumping: boolean = false;
+    private allowDoubleJump: boolean = true;
+    private isDoubleJumping: boolean = false;
     private jumpPressed: boolean = false;
 
-    private rigidBody: cc.RigidBody = null;
+    private currentSpeed: number = this.MIN_SPEED;
+    private timeToIncreaseSpeed: number = this.SPEED_INCREASE_DURATION;
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
         this.rigidBody = this.getComponent(cc.RigidBody);
         cc.director.getPhysicsManager().enabled = true;
-    //    cc.director.getPhysicsManager().debugDrawFlags = 1;
-        cc.director.getPhysicsManager().gravity = cc.v2(0, -600);
+        cc.director.getPhysicsManager().gravity = cc.v2(0, this.GRAVITY);
         cc.director.getCollisionManager().enabled = true;
-       cc.director.getCollisionManager().enabledDrawBoundingBox = false;
+        cc.director.getCollisionManager().enabledDrawBoundingBox = false;
+
+    }
+
+    start () {
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown.bind(this), this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp.bind(this), this);
+
 
     }
 
     onBeginContact (contact: cc.PhysicsContact, selfCollider: cc.Collider, otherCollider: cc.Collider) {
-        // will be called once when two colliders begin to contact
-        console.log('onBeginContact');
+        this.isJumping = false;
+        this.isDoubleJumping = false;
     }
     onEndContact (contact: cc.PhysicsContact, selfCollider: cc.Collider, otherCollider: cc.Collider) {
         // will be called once when the contact between two colliders just about to end.
@@ -49,15 +52,9 @@ export default class PlayerController extends cc.Component {
         // will be called every time collider contact should be resolved
         console.log('onPreSolve');
     }
+
     onPostSolve (contact: cc.PhysicsContact, selfCollider: cc.Collider, otherCollider: cc.Collider) {
         // will be called every time collider contact should be resolved
-        console.log('onPostSolve');
-        this.isJumping = false;
-    }
-
-    start () {
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown.bind(this), this);
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp.bind(this), this);
     }
 
     canJump() {
@@ -91,13 +88,33 @@ export default class PlayerController extends cc.Component {
             default:
                 break;
         }
-    }
+    }   
 
     protected update(dt: number): void {
-        // if (this.rigidBody.linearVelocity.x )
-        cc.Camera.main.node.x += 100 * dt;
-        if (this.rigidBody.linearVelocity.x < 100) {
-            this.rigidBody.applyForceToCenter(cc.v2(10000, 0), true);
+        this.updateMove(dt);
+        this.checkPlayerDie();
+    }
+
+    updateMove(dt) {
+        const camera = cc.Camera.main;
+        
+        this.timeToIncreaseSpeed -= dt;
+        if (this.timeToIncreaseSpeed <= 0) {
+            this.timeToIncreaseSpeed = this.SPEED_INCREASE_DURATION;
+            this.currentSpeed += this.SPEED_INCREASE;
+            this.currentSpeed = Math.min(this.currentSpeed, this.MAX_SPEED);
+        }
+
+        camera.node.x += this.currentSpeed * dt;
+        if (this.rigidBody.linearVelocity.x < this.currentSpeed) {
+            this.rigidBody.applyForceToCenter(cc.v2(20000, 0), true);
+        }
+    }
+
+    checkPlayerDie() {
+        const camera = cc.Camera.main;
+        if (this.node.x <= camera.node.x - camera.node.width/2 - 700) {
+            this.node.x = camera.node.x;
         }
     }
 
