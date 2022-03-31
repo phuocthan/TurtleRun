@@ -1,8 +1,8 @@
 {
-  "engine": "cocos2d-html5",
+  "engine": "cocos-creator-js",
   "packages": "packages",
+  "name": "FlappyBird",
+  "id": "47da3fdb-88ab-49f1-b64b-f46515d8dc31",
   "version": "2.4.6",
-  "name": "JumpingTurtle",
-  "id": "e379f873-cd44-4198-984c-f3fd748d1ae8",
   "isNew": false
 }
