@@ -1,7 +1,7 @@
 {
   "title": "FlappyBird",
   "packageName": "org.cocos2d.demo",
-  "startScene": "98d61829-9e04-4f8d-a707-7eda06159407",
+  "startScene": "1411b434-36cf-4556-b551-addbd1daf7dd",
   "excludeScenes": [],
   "orientation": {
     "landscapeLeft": true,
@@ -27,7 +27,8 @@
   },
   "ios": {
     "REMOTE_SERVER_ROOT": "",
-    "packageName": "org.cocos2d.demo"
+    "packageName": "org.cocos2d.demo",
+    "ios_enable_jit": true
   },
   "mac": {
     "REMOTE_SERVER_ROOT": "",
@@ -51,5 +52,6 @@
   },
   "appBundle": false,
   "includeAnySDK": false,
-  "includeSDKBox": null
+  "includeSDKBox": null,
+  "agreements": {}
 }

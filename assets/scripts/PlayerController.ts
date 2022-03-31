@@ -11,8 +11,8 @@ const {ccclass, property} = cc._decorator;
 export default class PlayerController extends cc.Component {
 
     readonly GROUND_Y = -155.371;
-    readonly JUMP_POWER = 600;
-    readonly SECOND_JUMP_POWER = 500;
+    readonly JUMP_POWER = 1400000;
+    readonly SECOND_JUMP_POWER = 1000000;
     readonly GRAVITY = -800;
     
     allowDoubleJump: boolean = true;
@@ -23,20 +23,18 @@ export default class PlayerController extends cc.Component {
     
     private jumpPressed: boolean = false;
 
+    private rigidBody: cc.RigidBody = null;
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        this.rigidBody = this.getComponent(cc.RigidBody);
         cc.director.getPhysicsManager().enabled = true;
-        cc.director.getPhysicsManager().gravity = cc.v2(0, -500);
+    //    cc.director.getPhysicsManager().debugDrawFlags = 1;
+        cc.director.getPhysicsManager().gravity = cc.v2(0, -600);
         cc.director.getCollisionManager().enabled = true;
-
-        cc.director.getCollisionManager().enabledDebugDraw = true;
-
-       cc.director.getCollisionManager().enabled = true;
-
-       cc.director.getPhysicsManager().debugDrawFlags = 1;
-
        cc.director.getCollisionManager().enabledDrawBoundingBox = false;
+
     }
 
     onBeginContact (contact: cc.PhysicsContact, selfCollider: cc.Collider, otherCollider: cc.Collider) {
@@ -96,10 +94,15 @@ export default class PlayerController extends cc.Component {
     }
 
     protected update(dt: number): void {
+        // if (this.rigidBody.linearVelocity.x )
+        cc.Camera.main.node.x += 100 * dt;
+        if (this.rigidBody.linearVelocity.x < 100) {
+            this.rigidBody.applyForceToCenter(cc.v2(10000, 0), true);
+        }
     }
 
     jump(power) {
-        this.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, power);
+        this.rigidBody.applyForceToCenter(cc.v2(0, power), true);
     }
 
     // update (dt) {}
