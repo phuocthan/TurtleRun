@@ -3,7 +3,8 @@
   "group-list": [
     "default",
     "New Group 3",
-    "turtle"
+    "turtle",
+    "UI"
   ],
   "collision-matrix": [
     [
@@ -17,6 +18,12 @@
     ],
     [
       true,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
       false,
       false
     ]
@@ -49,5 +56,6 @@
   },
   "migrate-history": [
     "cloud-function"
-  ]
+  ],
+  "start-scene": "current"
 }

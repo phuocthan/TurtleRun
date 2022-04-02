@@ -1,1 +1,0 @@
-window._CCSettings={platform:"web-mobile",groupList:["default","New Group 3","turtle"],collisionMatrix:[[true,null,true],[false,false],[true,false,false]],hasResourcesBundle:false,hasStartSceneBundle:false,remoteBundles:[],subpackages:[],launchScene:"db://assets/scenes/JumpingTurtle.fire",orientation:"portrait",jsList:[]};

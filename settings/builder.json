@@ -1,7 +1,7 @@
 {
-  "title": "FlappyBird",
+  "title": "JumpingTurtle",
   "packageName": "org.cocos2d.demo",
-  "startScene": "1411b434-36cf-4556-b551-addbd1daf7dd",
+  "startScene": "f40b5856-272d-429e-883c-ab7d974f35c0",
   "excludeScenes": [],
   "orientation": {
     "landscapeLeft": true,
@@ -9,13 +9,13 @@
     "portrait": false,
     "upsideDown": false
   },
-  "webOrientation": "portrait",
+  "webOrientation": "landscape",
   "inlineSpriteFrames": true,
   "inlineSpriteFrames_native": true,
   "mainCompressionType": "default",
   "mainIsRemote": false,
   "optimizeHotUpdate": false,
-  "md5Cache": false,
+  "md5Cache": true,
   "nativeMd5Cache": true,
   "encryptJs": true,
   "xxteaKey": "de4f4490-b8f1-4d",

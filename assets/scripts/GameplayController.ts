@@ -5,13 +5,25 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class GamePlayerController extends cc.Component {
 
-    readonly timeToSpawnNewBackground = 1; // 1 second.
+    private static instance: GamePlayerController = null;
+    public static getInstance() {return this.instance};
+
+    readonly timeToSpawnNewBackground = 0.5; // 1 second.
+
+    @property(cc.Prefab)
+    backgroundPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    groudnPrefab: cc.Prefab = null;
 
     @property(cc.Node)
-    background1: cc.Node = null;
+    backgroundParent: cc.Node = null;
 
     @property(cc.Node)
-    groundNode: cc.Node = null;
+    dynamicBackgroundParent: cc.Node = null;
+
+    @property(cc.Node)
+    obstacleParent: cc.Node = null;
 
     @property([SpawnableObject])
     spawnableObjects: SpawnableObject[] = [];
@@ -23,9 +35,19 @@ export default class GamePlayerController extends cc.Component {
     private lastGround: cc.Node = null;
 
     start () {
-        this.lastBG = this.background1;
-        this.lastGround = this.groundNode;
-        this.spawnBackground();
+        GamePlayerController.instance = this;
+        this.resetGamePlay();
+    }
+
+    resetGamePlay() {
+        this.lastBG = null;
+        this.lastGround = null;
+        this.backgroundParent.destroyAllChildren();
+        this.spawnedObjects.forEach(object => object.destroy());
+        this.spawnedObjects = [];
+        this.timeToSpawn = 0;
+        this.spawnBackground(true);
+        this.spawnBackground(false);
         this.setupToSpawnObjects();
     }
 
@@ -35,13 +57,17 @@ export default class GamePlayerController extends cc.Component {
             this.spawnableObjectConfig.push({
                 currentTime: object.timeToSpawn,
                 spawnTime: object.timeToSpawn,
+                offset: object.offset,
                 rate: object.rateToSpawn,
                 node: object.node
             })
         })
     }
 
+    private spawnedObjects: cc.Node[] = [];
+
     private spawnObjects(dt) {
+        const camera = cc.Camera.main;
         this.spawnableObjectConfig.forEach(config => {
             config.currentTime -= dt;
             if (config.currentTime <= 0) {
@@ -52,35 +78,75 @@ export default class GamePlayerController extends cc.Component {
                 const cloneObject = cc.instantiate(config.node);
                 cloneObject.active = true;
                 cloneObject.x = cc.Camera.main.node.x + 2000 + Math.random() * 1000;
-                config.node.parent.addChild(cloneObject);
-                console.log("Spawn", config.node.name);
 
+                if (config.offset.y > 0) {
+                    cloneObject.y = cloneObject.y + -config.offset.y + Math.random() * config.offset.y * 2;
+                }
+
+                config.node.parent.addChild(cloneObject);
+                this.spawnedObjects.push(cloneObject);
             }
         })
+
+        const newSpawnObjects = [];
+        this.spawnedObjects && this.spawnedObjects.forEach(node => {
+            if (!node) return;
+            const offset = 200;
+            if (node.x + node.width / 2 < camera.node.x - camera.node.width / 2 - offset) {
+                node.destroy();
+            } else {
+                newSpawnObjects.push(node);
+            }
+        })
+        this.spawnedObjects = newSpawnObjects;
     }
 
-    private spawnBackground() {
-        var bg = cc.instantiate(this.background1);
-        bg.x = this.lastBG.x + this.lastBG.width;
-        bg.y = this.lastBG.y;
-        this.lastBG.parent.addChild(bg);
+    private  spawnBackground(start = false) {
+        var bg = cc.instantiate(this.backgroundPrefab);
+        bg.x = start ? 0 : this.lastBG.x + this.lastBG.width;
+        bg.y = start ? 0 : this.lastBG.y;
+        this.backgroundParent.addChild(bg);
         this.lastBG = bg;
 
-        var ground = cc.instantiate(this.groundNode);
-        ground.x = this.lastGround.x + this.lastGround.width;
-        ground.y = this.lastGround.y;
-        this.lastGround.parent.addChild(ground);
+        var ground = cc.instantiate(this.groudnPrefab);
+        ground.x = start ? 0 : this.lastGround.x + this.lastGround.width;
+        ground.y = start ? -424 : this.lastGround.y;
+        this.backgroundParent.addChild(ground);
+
         this.lastGround = ground;
 
-        // To Do: Destroy ground & background node.
+        if (start) {
+            // Quick fix: Spawn left area of the screen at the beginning.
+            const bg = cc.instantiate(this.backgroundPrefab);
+            bg.x = this.lastBG.x - this.lastBG.width;
+            bg.y = this.lastBG.y;
+            this.backgroundParent.addChild(bg);
+
+            const ground = cc.instantiate(this.groudnPrefab);
+            ground.x = this.lastGround.x - this.lastGround.width;
+            ground.y = this.lastGround.y;
+            this.backgroundParent.addChild(ground);
+        }
+
     }
 
     update (dt) {
+
         this.timeToSpawn -= dt;
         if (this.timeToSpawn <= 0) {
             this.spawnBackground();
             this.timeToSpawn = this.timeToSpawnNewBackground;
         }
+
+        const camera = cc.Camera.main;
+        // Destroy background & ground
+        this.backgroundParent.children.forEach(node => {
+            const offset = 500;
+            if (!node['remain'] && node.x + node.width / 2 < camera.node.x - camera.node.width / 2 - offset) {
+                node.destroy();
+            }
+        })
         this.spawnObjects(dt);
+
     }
 }
