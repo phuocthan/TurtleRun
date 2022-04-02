@@ -22,7 +22,7 @@ export default class PlayerController extends cc.Component {
     readonly SPEED_INCREASE = 50;
     readonly SPEED_INCREASE_DURATION = 1.25;
 
-    readonly PLAYER_LIFE = 2;
+    readonly PLAYER_LIFE = 3;
     
     private rigidBody: cc.RigidBody = null;
 
