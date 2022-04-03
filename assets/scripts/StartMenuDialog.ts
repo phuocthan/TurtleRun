@@ -3,6 +3,8 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class StartMenuDialog extends cc.Component {
 
+    readonly GAME_VERSION: string = 'v1.0';
+
     @property(cc.Node)
     leaderboardDialog: cc.Node = null;
 
@@ -15,8 +17,16 @@ export default class StartMenuDialog extends cc.Component {
     @property(cc.Label)
     playerNameLbl: cc.Label = null;
 
+    @property(cc.Label)
+    versionLbl: cc.Label = null;
+
     start () {
+        this.showVersion();
         this.showUserInfo();
+    }
+
+    showVersion() {
+        this.versionLbl.string = this.GAME_VERSION;
     }
 
     showUserInfo() {
