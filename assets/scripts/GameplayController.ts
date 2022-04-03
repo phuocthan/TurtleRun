@@ -69,16 +69,26 @@ export default class GamePlayerController extends cc.Component {
                 spawnTime: object.timeToSpawn,
                 offset: object.offset,
                 rate: object.rateToSpawn,
-                node: object.node
+                node: object.node,
+                skipNextSpawn: object.skipNextSpawn
             })
         })
     }
 
     private spawnedObjects: cc.Node[] = [];
+    private delaySpawnTimeCount: number = 0;
+
+    readonly DELAY_SPAWN_DURATION = 0.5;
 
     private spawnObjects(dt) {
         const camera = cc.Camera.main;
+        let breakLoop = false;
+        if (this.delaySpawnTimeCount > 0) {
+            this.delaySpawnTimeCount -= dt * TurtleController.getInstance().speedScale() / 2;
+        }
         this.spawnableObjectConfig.forEach(config => {
+            if (breakLoop) return;
+            if (this.delaySpawnTimeCount > 0) return;
             // The spawn time decrease base on a half of turtle current speed scale.
             config.currentTime -= dt * TurtleController.getInstance().speedScale();
             if (config.currentTime <= 0) {
@@ -96,6 +106,10 @@ export default class GamePlayerController extends cc.Component {
 
                 config.node.parent.addChild(cloneObject);
                 this.spawnedObjects.push(cloneObject);
+                if (config.skipNextSpawn) {
+                    this.delaySpawnTimeCount = this.DELAY_SPAWN_DURATION;
+                    breakLoop = true;
+                }
             }
         })
 

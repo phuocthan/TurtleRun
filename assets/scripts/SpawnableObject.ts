@@ -10,6 +10,8 @@ export default class SpawnableObject extends cc.Component {
     offset: cc.Vec2 = cc.v2(0, 0);
     @property()
     velocity: cc.Vec2 = cc.v2(0, 0);
+    @property()
+    skipNextSpawn: boolean = false;
 
     protected update(dt: number): void {
         this.node.x += this.velocity.x * dt;

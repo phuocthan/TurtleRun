@@ -524,6 +524,7 @@
       "x": 0,
       "y": 0
     },
+    "skipNextSpawn": false,
     "_id": "67SxxkPFlJ970en9zhSkB+"
   },
   {
@@ -659,6 +660,7 @@
       "x": -450,
       "y": 0
     },
+    "skipNextSpawn": false,
     "_id": "a3VkCJZnpNp6sMtKK+Ak5J"
   },
   {
@@ -880,6 +882,7 @@
       "x": 0,
       "y": 0
     },
+    "skipNextSpawn": true,
     "_id": "5dAgUkZNpNS6uL8NMuDQxz"
   },
   {
@@ -1222,6 +1225,7 @@
       "x": 0,
       "y": 0
     },
+    "skipNextSpawn": true,
     "_id": "8emcP+AP5E673ARptBNMK9"
   },
   {
@@ -1792,7 +1796,7 @@
     "dragStepIncreaseDuration": 2,
     "direction": 1,
     "jumpSpeed": 2400,
-    "doubleJumpSpeed": 2400,
+    "doubleJumpSpeed": 1800,
     "_id": "2cg13aOX9AbbI4X6aQaCX1"
   },
   {
