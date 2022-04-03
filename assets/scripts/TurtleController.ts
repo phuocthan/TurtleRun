@@ -166,8 +166,6 @@ export default class TurtleController extends cc.Component {
         } else {
             if (!this.doubleJumping) {
                 this.speed.y = this.doubleJumpSpeed;
-                // this.speed.y = this.speed.y > this.maxSpeed.y ? this.maxSpeed.y : this.speed.y;    
-
                 this.doubleJumping = true;
             }
         }

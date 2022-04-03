@@ -103,11 +103,16 @@ export default class GamePlayerController extends cc.Component {
         this.spawnedObjects && this.spawnedObjects.forEach(node => {
             if (!node) return;
             const offset = 200;
-            if (node.x + node.width / 2 < camera.node.x - camera.node.width / 2 - offset) {
+            try {
+                if (node.x + node.width / 2 < camera.node.x - camera.node.width / 2 - offset) {
+                    node.destroy();
+                } else {
+                    newSpawnObjects.push(node);
+                }
+            } catch(err) {
                 node.destroy();
-            } else {
-                newSpawnObjects.push(node);
             }
+            
         })
         this.spawnedObjects = newSpawnObjects;
     }
