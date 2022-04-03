@@ -5,7 +5,7 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class TurtleController extends cc.Component {
 
-    readonly GROUND_Y_POSITION: number = -360;
+    readonly GROUND_Y_POSITION: number = -370;
     readonly PLAYER_LIFE: number = 3;
 
     @property(cc.Node)
@@ -180,13 +180,6 @@ export default class TurtleController extends cc.Component {
                 this.speed.y = this.speed.y > 0 ? this.maxSpeed.y : -this.maxSpeed.y;
             }
         }
-        // Check if player has touched the ground or not.
-        if (this.speed.y < 0 && (this.node.y <= this.GROUND_Y_POSITION)) {
-            this.node.y = this.GROUND_Y_POSITION;
-            this.jumping = false;
-            this.doubleJumping = false;
-            this.collisionY = -1;
-        }
         // Update Speed
         this.speed.x += (this.direction > 0 ? 1 : -1) * this.drag * dt;
         this.cameraSpeed += (this.direction > 0 ? 1 : -1) * this.drag * dt;
@@ -203,6 +196,13 @@ export default class TurtleController extends cc.Component {
         // Update player position base on speed.
         this.node.x += this.speed.x * dt;
         this.node.y += this.speed.y * dt;
+        // Check if player has touched the ground or not.
+        if (this.speed.y <= 0 && (this.node.y <= this.GROUND_Y_POSITION)) {
+            this.node.y = this.GROUND_Y_POSITION;
+            this.jumping = false;
+            this.doubleJumping = false;
+            this.collisionY = -1;
+        }
         // Update Camera position.
         const camera = cc.Camera.main;
         camera.node.x += this.cameraSpeed * dt;
