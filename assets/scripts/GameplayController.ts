@@ -80,7 +80,7 @@ export default class GamePlayerController extends cc.Component {
         const camera = cc.Camera.main;
         this.spawnableObjectConfig.forEach(config => {
             // The spawn time decrease base on a half of turtle current speed scale.
-            config.currentTime -= dt * TurtleController.getInstance().speedScale() / 2;
+            config.currentTime -= dt * TurtleController.getInstance().speedScale();
             if (config.currentTime <= 0) {
                 config.currentTime = config.spawnTime;
                 if (Math.random() > config.rate) {

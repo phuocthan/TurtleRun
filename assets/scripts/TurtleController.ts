@@ -165,8 +165,8 @@ export default class TurtleController extends cc.Component {
             this.speed.y = this.jumpSpeed > this.maxSpeed.y ? this.maxSpeed.y : this.jumpSpeed;    
         } else {
             if (!this.doubleJumping) {
-                this.speed.y += this.doubleJumpSpeed;
-                this.speed.y = this.speed.y > this.maxSpeed.y ? this.maxSpeed.y : this.speed.y;    
+                this.speed.y = this.doubleJumpSpeed;
+                // this.speed.y = this.speed.y > this.maxSpeed.y ? this.maxSpeed.y : this.speed.y;    
 
                 this.doubleJumping = true;
             }
@@ -178,13 +178,15 @@ export default class TurtleController extends cc.Component {
     }
     
     update(dt) {
-        // Update to crease max speed base on time
-        if (this.dragStepIncreaseCount < this.dragStepIncreaseDuration) {
-            this.dragStepIncreaseCount += dt;
-        } else {
-            this.maxSpeed.x += this.dragStep;
-            this.maxSpeed.x = Math.min(this.maxSpeed.x, this.maxDrag);
-            this.dragStepIncreaseCount = 0;
+        // Update to crease max speed base on time.
+        if (!this.isDead && !this.respawning) {
+            if (this.dragStepIncreaseCount < this.dragStepIncreaseDuration) {
+                this.dragStepIncreaseCount += dt;
+            } else {
+                this.maxSpeed.x += this.dragStep;
+                this.maxSpeed.x = Math.min(this.maxSpeed.x, this.maxDrag);
+                this.dragStepIncreaseCount = 0;
+            }
         }
         // Update to apply gravity
         if (this.jumping) {
@@ -257,6 +259,12 @@ export default class TurtleController extends cc.Component {
                 }
                 break;
             case 'Box':
+                if (!this.isInvincible()) {
+                    this.onPlayerDamage();
+                    return true;
+                }
+                break;
+            case 'Scarecrow':
                 if (!this.isInvincible()) {
                     this.onPlayerDamage();
                     return true;
