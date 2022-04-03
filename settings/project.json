@@ -4,24 +4,67 @@
     "default",
     "New Group 3",
     "turtle",
-    "UI"
+    "UI",
+    "Ground",
+    "Box",
+    "Scarecrow",
+    "Bird"
   ],
   "collision-matrix": [
     [
-      true,
+      false,
       null,
+      false
+    ],
+    [
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      null,
+      true,
+      true,
+      true,
       true
     ],
     [
       false,
+      false,
+      false,
       false
     ],
     [
+      false,
+      false,
       true,
       false,
       false
     ],
     [
+      false,
+      false,
+      true,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      true,
+      false,
       false,
       false,
       false,
@@ -56,6 +99,5 @@
   },
   "migrate-history": [
     "cloud-function"
-  ],
-  "start-scene": "current"
+  ]
 }

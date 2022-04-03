@@ -232,7 +232,7 @@ export default class PlayerController extends cc.Component {
         return this.invincibleDuration > 0;
     }
 
-    protected update(dt: number): void {
+    protected lateUpdate(dt: number): void {
         this.updateMove(dt);
         this.checkPlayerOutOfScreen();
     }

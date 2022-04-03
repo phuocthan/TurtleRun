@@ -37,6 +37,15 @@ export default class GamePlayerController extends cc.Component {
     start () {
         GamePlayerController.instance = this;
         this.resetGamePlay();
+        cc.view.on('canvas-resize', () => {
+            this.updateCamera();
+        });
+        this.updateCamera();
+    }
+
+    updateCamera() {
+        cc.Camera.main.node.width = cc.view.getCanvasSize().width;
+        cc.Camera.main.node.height = cc.view.getCanvasSize().height;
     }
 
     resetGamePlay() {

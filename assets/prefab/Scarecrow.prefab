@@ -84,8 +84,8 @@
     "_skewX": 0,
     "_skewY": 0,
     "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
+    "_groupIndex": 6,
+    "groupIndex": 6,
     "_id": ""
   },
   {
@@ -233,6 +233,11 @@
     "_enabled": true,
     "timeToSpawn": 4,
     "rateToSpawn": 0.5,
+    "offset": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
     "_id": ""
   },
   {
