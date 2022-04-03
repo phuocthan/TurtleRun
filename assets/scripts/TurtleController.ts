@@ -6,7 +6,7 @@ const {ccclass, property} = cc._decorator;
 export default class TurtleController extends cc.Component {
 
     readonly GROUND_Y_POSITION: number = -370;
-    readonly PLAYER_LIFE: number = 3;
+    readonly PLAYER_LIFE: number = 1;
 
     @property(cc.Node)
     touchNode: cc.Node = null;
@@ -226,7 +226,7 @@ export default class TurtleController extends cc.Component {
     }
 
     checkPlayerOutOfScreen() {
-        if (this.respawning) return;
+        if (this.respawning || this.isDead) return;
         const camera = cc.Camera.main;
         if (this.node.x + this.node.width / 2 <= camera.node.x - camera.node.width/2) {
             this.onPlayerDamage();
