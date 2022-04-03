@@ -32,13 +32,13 @@ export default class UIController extends cc.Component {
 
     updateUI(data) {
         const {life, distance} = data;
-        if (life) {
+        if (life != null) {
             this.hearts.children.forEach(h => h.children[1].active = false);
             for (var i = 0; i < life; i++) {
                 this.hearts.children[i].children[1].active = true;
             }
         }
-        if (distance) {
+        if (distance != null) {
             var meter = Math.floor(distance / 38);
             this.currentScore = meter;
             this.runDistanceLabel.string = "Score: " + meter.toString().padStart(7, '0');

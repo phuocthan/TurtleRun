@@ -1,4 +1,5 @@
 import SpawnableObject from "./SpawnableObject";
+import TurtleController from "./TurtleController";
 
 const {ccclass, property} = cc._decorator;
 
@@ -8,7 +9,7 @@ export default class GamePlayerController extends cc.Component {
     private static instance: GamePlayerController = null;
     public static getInstance() {return this.instance};
 
-    readonly timeToSpawnNewBackground = 0.5; // 1 second.
+    readonly timeToSpawnNewBackground = 0.25; // 1 second.
 
     @property(cc.Prefab)
     backgroundPrefab: cc.Prefab = null;
@@ -78,10 +79,11 @@ export default class GamePlayerController extends cc.Component {
     private spawnObjects(dt) {
         const camera = cc.Camera.main;
         this.spawnableObjectConfig.forEach(config => {
-            config.currentTime -= dt;
+            // The spawn time decrease base on a half of turtle current speed scale.
+            config.currentTime -= dt * TurtleController.getInstance().speedScale() / 2;
             if (config.currentTime <= 0) {
                 config.currentTime = config.spawnTime;
-                if (Math.random() >  config.rate) {
+                if (Math.random() > config.rate) {
                     return;
                 }
                 const cloneObject = cc.instantiate(config.node);
@@ -150,7 +152,7 @@ export default class GamePlayerController extends cc.Component {
         const camera = cc.Camera.main;
         // Destroy background & ground
         this.backgroundParent.children.forEach(node => {
-            const offset = 500;
+            const offset = 200;
             if (!node['remain'] && node.x + node.width / 2 < camera.node.x - camera.node.width / 2 - offset) {
                 node.destroy();
             }

@@ -5,8 +5,11 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class TurtleController extends cc.Component {
 
+    private static instance: TurtleController = null;
+    public static getInstance() {return this.instance};
+
     readonly GROUND_Y_POSITION: number = -370;
-    readonly PLAYER_LIFE: number = 1;
+    readonly PLAYER_LIFE: number = 3;
 
     @property(cc.Node)
     touchNode: cc.Node = null;
@@ -30,6 +33,8 @@ export default class TurtleController extends cc.Component {
     direction: number = 1;
     @property()
     jumpSpeed: number = 300;
+    @property()
+    doubleJumpSpeed: number = 1000;
 
     private collisionX: number = 0;
     private collisionY: number = 0;
@@ -51,12 +56,14 @@ export default class TurtleController extends cc.Component {
     private invincibleDuration: number = 0;
 
     protected onLoad(): void {
+        TurtleController.instance = this;
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         this.touchNode.on(cc.Node.EventType.TOUCH_START, this.onTouchStart.bind(this), this);
     }
     
     protected start(): void {
         UIController.getInstance().updateUI({distance: this.runDistance, life: this.currentPlayerLife});
+        UIController.getInstance().showTutorialText();
     }
 
     onTouchStart() {
@@ -158,10 +165,16 @@ export default class TurtleController extends cc.Component {
             this.speed.y = this.jumpSpeed > this.maxSpeed.y ? this.maxSpeed.y : this.jumpSpeed;    
         } else {
             if (!this.doubleJumping) {
-                this.speed.y += this.jumpSpeed;
+                this.speed.y += this.doubleJumpSpeed;
+                this.speed.y = this.speed.y > this.maxSpeed.y ? this.maxSpeed.y : this.speed.y;    
+
                 this.doubleJumping = true;
             }
         }
+    }
+
+    speedScale() {
+        return this.cameraSpeed / 600;
     }
     
     update(dt) {

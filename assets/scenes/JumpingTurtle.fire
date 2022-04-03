@@ -1620,16 +1620,17 @@
     },
     "maxSpeed": {
       "__type__": "cc.Vec2",
-      "x": 450,
-      "y": 2000
+      "x": 600,
+      "y": 3000
     },
     "gravity": -9000,
     "drag": 1000,
     "maxDrag": 2000,
-    "dragStep": 25,
-    "dragStepIncreaseDuration": 3,
+    "dragStep": 30,
+    "dragStepIncreaseDuration": 2,
     "direction": 1,
-    "jumpSpeed": 8000,
+    "jumpSpeed": 2450,
+    "doubleJumpSpeed": 1500,
     "_id": "2cg13aOX9AbbI4X6aQaCX1"
   },
   {
