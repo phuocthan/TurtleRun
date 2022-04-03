@@ -3,7 +3,7 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class StartMenuDialog extends cc.Component {
 
-    readonly GAME_VERSION: string = 'v1.0';
+    readonly GAME_VERSION: string = 'v1.1';
 
     @property(cc.Node)
     leaderboardDialog: cc.Node = null;
