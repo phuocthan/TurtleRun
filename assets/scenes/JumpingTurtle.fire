@@ -513,7 +513,7 @@
     },
     "_enabled": true,
     "timeToSpawn": 4,
-    "rateToSpawn": 0.75,
+    "rateToSpawn": 0.8,
     "offset": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -648,15 +648,15 @@
     },
     "_enabled": true,
     "timeToSpawn": 8,
-    "rateToSpawn": 0.75,
+    "rateToSpawn": 0.5,
     "offset": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 20
+      "y": 40
     },
     "velocity": {
       "__type__": "cc.Vec2",
-      "x": -350,
+      "x": -450,
       "y": 0
     },
     "_id": "a3VkCJZnpNp6sMtKK+Ak5J"
@@ -869,7 +869,7 @@
     },
     "_enabled": true,
     "timeToSpawn": 3.5,
-    "rateToSpawn": 0.9,
+    "rateToSpawn": 0.85,
     "offset": {
       "__type__": "cc.Vec2",
       "x": 0,
@@ -1210,11 +1210,11 @@
       "__id__": 23
     },
     "_enabled": true,
-    "timeToSpawn": 4,
-    "rateToSpawn": 0.5,
+    "timeToSpawn": 5,
+    "rateToSpawn": 0.6,
     "offset": {
       "__type__": "cc.Vec2",
-      "x": 0,
+      "x": 30,
       "y": 0
     },
     "velocity": {
@@ -1791,8 +1791,8 @@
     "dragStep": 20,
     "dragStepIncreaseDuration": 2,
     "direction": 1,
-    "jumpSpeed": 2350,
-    "doubleJumpSpeed": 2100,
+    "jumpSpeed": 2400,
+    "doubleJumpSpeed": 2400,
     "_id": "2cg13aOX9AbbI4X6aQaCX1"
   },
   {
