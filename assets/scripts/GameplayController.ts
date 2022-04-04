@@ -65,6 +65,7 @@ export default class GamePlayerController extends cc.Component {
         this.spawnableObjectConfig = [];
         this.spawnableObjects.forEach((object: SpawnableObject) => {
             this.spawnableObjectConfig.push({
+                type: object.node.name,
                 currentTime: object.timeToSpawn,
                 spawnTime: object.timeToSpawn,
                 offset: object.offset,
@@ -77,8 +78,13 @@ export default class GamePlayerController extends cc.Component {
 
     private spawnedObjects: cc.Node[] = [];
     private delaySpawnTimeCount: number = 0;
+    private lastObjectType: string = null;
 
-    readonly DELAY_SPAWN_DURATION = 1.5;
+    readonly DELAY_SPAWN_DURATION = 3.5;
+
+    private isObstacle(type) {
+        return type === 'Box' || type === 'Scarecrow';
+    }
 
     private spawnObjects(dt) {
         const camera = cc.Camera.main;
@@ -88,7 +94,7 @@ export default class GamePlayerController extends cc.Component {
         }
         this.spawnableObjectConfig.forEach(config => {
             if (breakLoop) return;
-            if (this.delaySpawnTimeCount > 0) return;
+            if (this.delaySpawnTimeCount > 0 && this.isObstacle(config.type)) return;
             // The spawn time decrease base on a half of turtle current speed scale.
             config.currentTime -= dt * TurtleController.getInstance().speedScale();
             if (config.currentTime <= 0) {
@@ -96,9 +102,9 @@ export default class GamePlayerController extends cc.Component {
                 if (Math.random() > config.rate) {
                     return;
                 }
-                const cloneObject = cc.instantiate(config.node);
+                const cloneObject = cc.instantiate(config.node) as cc.Node;
                 cloneObject.active = true;
-                cloneObject.x = cc.Camera.main.node.x + 2000;
+                cloneObject.x = cc.Camera.main.node.x + cc.Camera.main.node.width + 100;
 
                 if (config.offset.y > 0) {
                     cloneObject.y = cloneObject.y + -config.offset.y + Math.random() * config.offset.y * 2;
@@ -110,6 +116,7 @@ export default class GamePlayerController extends cc.Component {
                     this.delaySpawnTimeCount = this.DELAY_SPAWN_DURATION;
                     breakLoop = true;
                 }
+                
             }
         })
 
