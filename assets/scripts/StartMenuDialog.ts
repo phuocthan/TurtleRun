@@ -1,3 +1,5 @@
+import AudioManager from "./AudioManager";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -23,6 +25,8 @@ export default class StartMenuDialog extends cc.Component {
     start () {
         this.showVersion();
         this.showUserInfo();
+
+        AudioManager.getInstance().playMusic('bgm');
     }
 
     showVersion() {
@@ -45,7 +49,12 @@ export default class StartMenuDialog extends cc.Component {
         localStorage.setItem("playerName", this.playerNameLbl.string);
     }
 
+    playClickSE() {
+        AudioManager.getInstance().play('click', false, 1.0);
+    }
+
     onStartGame() {
+        this.playClickSE();
         if (!localStorage.getItem("playerName")) {
             return;
         }
@@ -57,6 +66,7 @@ export default class StartMenuDialog extends cc.Component {
     }
 
     onLeaderboard() {
+        this.playClickSE();
         this.leaderboardDialog.scaleX = 0;
         this.leaderboardDialog.scaleY = 0;
         this.leaderboardDialog.active = true;
@@ -64,6 +74,7 @@ export default class StartMenuDialog extends cc.Component {
     }
 
     closeLeaderboard() {
+        this.playClickSE();
         cc.tween(this.leaderboardDialog).to(0.25, {scaleX: 0, scaleY: 0}).call(() => {
             this.leaderboardDialog.active = false;
         }).start();

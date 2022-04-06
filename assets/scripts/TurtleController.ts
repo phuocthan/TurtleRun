@@ -1,3 +1,4 @@
+import AudioManager from "./AudioManager";
 import UIController from "./GameUIController";
 
 const {ccclass, property} = cc._decorator;
@@ -55,8 +56,10 @@ export default class TurtleController extends cc.Component {
 
     private invincibleDuration: number = 0;
 
+    private animationController: cc.Animation = null;
     protected onLoad(): void {
         TurtleController.instance = this;
+        this.animationController = this.getComponent(cc.Animation);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         this.touchNode.on(cc.Node.EventType.TOUCH_START, this.onTouchStart.bind(this), this);
     }
@@ -125,14 +128,15 @@ export default class TurtleController extends cc.Component {
                 this.jumping = false;
                 this.doubleJumping = false;
                 this.collisionY = -1;
+                this.animationController.play("walk");
             }
             else if (this.speed.y > 0 && (selfPreAabb.yMin < otherPreAabb.yMin)) {
                 this.node.y = otherPreAabb.yMin - selfPreAabb.height - this.node.parent.y;
                 this.collisionY = 1;
             }
-            
             this.speed.y = 0;
             other.touchingY = true;
+            
         }    
         
     }
@@ -162,11 +166,15 @@ export default class TurtleController extends cc.Component {
         }
         if (!this.jumping) {
             this.jumping = true;
-            this.speed.y = this.jumpSpeed > this.maxSpeed.y ? this.maxSpeed.y : this.jumpSpeed;    
+            this.speed.y = this.jumpSpeed > this.maxSpeed.y ? this.maxSpeed.y : this.jumpSpeed;
+            this.animationController.play("jump");
+            AudioManager.getInstance().play("jump");
         } else {
             if (!this.doubleJumping) {
                 this.speed.y = this.doubleJumpSpeed;
                 this.doubleJumping = true;
+                this.animationController.play("doubleJump");
+                AudioManager.getInstance().play("jump");
             }
         }
     }
@@ -210,7 +218,10 @@ export default class TurtleController extends cc.Component {
         this.node.x += this.speed.x * dt;
         this.node.y += this.speed.y * dt;
         // Check if player has touched the ground or not.
-        if (this.speed.y <= 0 && (this.node.y <= this.GROUND_Y_POSITION)) {
+        if (this.speed.y <= 0 && (this.node.y < this.GROUND_Y_POSITION)) {
+            if (this.jumping) {
+               this.animationController.play("walk");
+            }
             this.node.y = this.GROUND_Y_POSITION;
             this.jumping = false;
             this.doubleJumping = false;
@@ -242,14 +253,17 @@ export default class TurtleController extends cc.Component {
         if (this.respawning || this.isDead) return;
         const camera = cc.Camera.main;
         if (this.node.x + this.node.width / 2 <= camera.node.x - camera.node.width/2) {
+            AudioManager.getInstance().play('hit');
             this.onPlayerDamage();
         }
     }
 
     checkCollideWithObjects(otherCollider: cc.Collider) {
         if (this.isDead || this.respawning) return false;
+
         switch(otherCollider.node.group) {
             case 'Bird':
+                AudioManager.getInstance().play('hit');
                 otherCollider.node.destroy();
                 if (!this.isInvincible()) {
                     this.onPlayerDamage();
@@ -258,12 +272,14 @@ export default class TurtleController extends cc.Component {
                 break;
             case 'Box':
                 if (!this.isInvincible()) {
+                    AudioManager.getInstance().play('hit');
                     this.onPlayerDamage();
                     return true;
                 }
                 break;
             case 'Scarecrow':
                 if (!this.isInvincible()) {
+                    AudioManager.getInstance().play('hit');
                     this.onPlayerDamage();
                     return true;
                 }
@@ -275,7 +291,7 @@ export default class TurtleController extends cc.Component {
     }
 
     onPlayerDamage() {
-        cc.tween(this.node).to(0.25, {opacity: 0}).start();
+        cc.tween(this.node).to(0.1, {opacity: 0}).start();
         this.currentPlayerLife -= 1;
         UIController.getInstance().updateUI({life: this.currentPlayerLife});
         if (this.currentPlayerLife <= 0) {
@@ -290,6 +306,7 @@ export default class TurtleController extends cc.Component {
         if (this.isDead) return;
         this.isDead = true;
         UIController.getInstance().showGameOverDialog();
+        AudioManager.getInstance().play('die');
     }
 
     respawn() {
@@ -304,6 +321,7 @@ export default class TurtleController extends cc.Component {
         UIController.getInstance().hideRespawnText();
         this.invincibleDuration = 3;
         cc.tween(this.barrierNode).to(0.25, {opacity: 255}).delay(this.invincibleDuration - 0.5).to(0.25, {opacity: 0}).start();
+        AudioManager.getInstance().play('revive');
     }
 
     isInvincible() {

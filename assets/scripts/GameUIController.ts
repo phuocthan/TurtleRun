@@ -1,3 +1,5 @@
+import AudioManager from "./AudioManager";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass
@@ -89,6 +91,7 @@ export default class UIController extends cc.Component {
     }
 
     onPlayAgain() {
+        AudioManager.getInstance().play('click');
         cc.tween(this.gameOverDialog).to(0.25, {scaleX: 0, scaleY: 0}).call(() => {
             const lastScene = cc.director.getScene();
             cc.tween(lastScene).to(0.5, {opacity: 0}).call(() => {
@@ -102,6 +105,7 @@ export default class UIController extends cc.Component {
     }
 
     onBackToMainMenu() {
+        AudioManager.getInstance().play('click');
         cc.tween(this.gameOverDialog).to(0.25, {scaleX: 0, scaleY: 0}).call(() => {
             const lastScene = cc.director.getScene();
             cc.tween(lastScene).to(0.5, {opacity: 0}).call(() => {

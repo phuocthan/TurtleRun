@@ -1,3 +1,4 @@
+import AudioManager from "./AudioManager";
 import SpawnableObject from "./SpawnableObject";
 import TurtleController from "./TurtleController";
 
@@ -28,6 +29,9 @@ export default class GamePlayerController extends cc.Component {
 
     @property([SpawnableObject])
     spawnableObjects: SpawnableObject[] = [];
+
+    @property(AudioManager)
+    audioManager: AudioManager = null;
 
     private spawnableObjectConfig = [];
 
