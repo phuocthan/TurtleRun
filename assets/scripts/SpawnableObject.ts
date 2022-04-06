@@ -1,4 +1,5 @@
 import AudioManager from "./AudioManager";
+import GamePlayerController from "./GameplayController";
 
 const {ccclass, property} = cc._decorator;
 
@@ -27,6 +28,7 @@ export default class SpawnableObject extends cc.Component {
             if (this.node.x - this.node.width / 2 <= camera.node.x + camera.node.width / 2) {
                 this.soundID = AudioManager.getInstance().play('crow');
                 this.isSoundPlayed = true;
+                GamePlayerController.getInstance().warningNode.active = false;
             }
         }
     }

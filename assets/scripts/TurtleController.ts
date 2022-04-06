@@ -67,6 +67,7 @@ export default class TurtleController extends cc.Component {
     protected start(): void {
         UIController.getInstance().updateUI({distance: this.runDistance, life: this.currentPlayerLife});
         UIController.getInstance().showTutorialText();
+        this.resetPosition();
     }
 
     onTouchStart() {
@@ -274,16 +275,14 @@ export default class TurtleController extends cc.Component {
                 if (!this.isInvincible()) {
                     AudioManager.getInstance().play('hit');
                     this.onPlayerDamage();
-                    return true;
                 }
-                break;
+                return true;
             case 'Scarecrow':
                 if (!this.isInvincible()) {
                     AudioManager.getInstance().play('hit');
                     this.onPlayerDamage();
-                    return true;
                 }
-                break;
+                return true;
             default:
                 break;
             }
@@ -309,13 +308,17 @@ export default class TurtleController extends cc.Component {
         AudioManager.getInstance().play('die');
     }
 
-    respawn() {
-        this.node.opacity = 0;
-        cc.tween(this.node).to(0.25, {opacity: 255}).start();
+    resetPosition() {
         const camera = cc.Camera.main;
         this.node.active = true;
         this.node.x = camera.node.x - camera.node.width * 0.2;
         this.node.y = this.GROUND_Y_POSITION;
+    }
+
+    respawn() {
+        this.node.opacity = 0;
+        cc.tween(this.node).to(0.25, {opacity: 255}).start();
+        this.resetPosition();
         this.speed.x = this.cameraSpeed;
         this.respawning = false;
         UIController.getInstance().hideRespawnText();

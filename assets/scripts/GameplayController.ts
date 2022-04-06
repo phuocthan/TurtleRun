@@ -33,24 +33,30 @@ export default class GamePlayerController extends cc.Component {
     @property(AudioManager)
     audioManager: AudioManager = null;
 
+    @property(cc.Node)
+    warningNode: cc.Node = null;
+
     private spawnableObjectConfig = [];
 
     private timeToSpawn = 0;
     private lastBG: cc.Node = null;
     private lastGround: cc.Node = null;
+    private warningNodeOpacityCount: number = 0;
 
+    private canvas = null;
     start () {
         GamePlayerController.instance = this;
-        this.resetGamePlay();
         cc.view.on('canvas-resize', () => {
             this.updateCamera();
         });
         this.updateCamera();
+        this.resetGamePlay();
     }
 
     updateCamera() {
-        cc.Camera.main.node.width = cc.view.getCanvasSize().width;
-        cc.Camera.main.node.height = cc.view.getCanvasSize().height;
+        const canvas = cc.find("Canvas");
+        cc.Camera.main.node.width = canvas.width;
+        cc.Camera.main.node.height = canvas.height;
     }
 
     resetGamePlay() {
@@ -110,11 +116,19 @@ export default class GamePlayerController extends cc.Component {
                 cloneObject.active = true;
                 cloneObject.x = cc.Camera.main.node.x + cc.Camera.main.node.width + 100;
 
+
                 if (config.offset.y > 0) {
                     cloneObject.y = cloneObject.y + -config.offset.y + Math.random() * config.offset.y * 2;
                 }
 
                 config.node.parent.addChild(cloneObject);
+
+                if (config.type === 'Bird') {
+                    cloneObject.x += 1500;
+                    this.warningNode.active = true;
+                    this.warningNode.y = this.warningNode.parent.convertToNodeSpaceAR(cloneObject.convertToWorldSpaceAR(cc.v2(0, 0))).y; //this.warningNode.convertToNodeSpaceAR(cloneObject.convertToWorldSpaceAR(cc.v2(0, 0))).y;
+                }
+
                 this.spawnedObjects.push(cloneObject);
                 if (config.skipNextSpawn) {
                     this.delaySpawnTimeCount = this.DELAY_SPAWN_DURATION;
@@ -140,6 +154,14 @@ export default class GamePlayerController extends cc.Component {
             
         })
         this.spawnedObjects = newSpawnObjects;
+    }
+
+    getWorldPos(node: cc.Node): cc.Vec2 {
+        return node.convertToWorldSpaceAR(cc.v2(0, 0));
+    }
+
+    setWorldPos(node: cc.Node, posWS: cc.Vec2): void {
+        node.setPosition(node.parent.convertToNodeSpaceAR(posWS));
     }
 
     private  spawnBackground(start = false) {
@@ -188,6 +210,9 @@ export default class GamePlayerController extends cc.Component {
             }
         })
         this.spawnObjects(dt);
+
+        this.warningNode.opacity = 100 + Math.sin(this.warningNodeOpacityCount / 30) * (200 - 100);
+        this.warningNodeOpacityCount += 1;
 
     }
 }
