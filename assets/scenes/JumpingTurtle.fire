@@ -663,7 +663,7 @@
     "offset": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 40
+      "y": 160
     },
     "velocity": {
       "__type__": "cc.Vec2",

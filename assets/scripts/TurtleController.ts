@@ -269,6 +269,8 @@ export default class TurtleController extends cc.Component {
                 if (!this.isInvincible()) {
                     this.onPlayerDamage();
                     return true;
+                } else {
+                    this.speed.x = this.cameraSpeed;
                 }
                 break;
             case 'Box':

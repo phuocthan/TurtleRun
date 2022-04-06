@@ -118,13 +118,13 @@ export default class GamePlayerController extends cc.Component {
 
 
                 if (config.offset.y > 0) {
-                    cloneObject.y = cloneObject.y + -config.offset.y + Math.random() * config.offset.y * 2;
+                    cloneObject.y = cloneObject.y - Math.random() * config.offset.y;
                 }
 
                 config.node.parent.addChild(cloneObject);
 
                 if (config.type === 'Bird') {
-                    cloneObject.x += 1500;
+                    cloneObject.x += 1500 * TurtleController.getInstance().speedScale();
                     this.warningNode.active = true;
                     this.warningNode.y = this.warningNode.parent.convertToNodeSpaceAR(cloneObject.convertToWorldSpaceAR(cc.v2(0, 0))).y; //this.warningNode.convertToNodeSpaceAR(cloneObject.convertToWorldSpaceAR(cc.v2(0, 0))).y;
                 }
