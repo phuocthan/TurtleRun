@@ -1,4 +1,5 @@
 import AudioManager from "./AudioManager";
+import GamePlayerController from "./GameplayController";
 import UIController from "./GameUIController";
 
 const {ccclass, property} = cc._decorator;
@@ -9,7 +10,7 @@ export default class TurtleController extends cc.Component {
     private static instance: TurtleController = null;
     public static getInstance() {return this.instance};
 
-    readonly GROUND_Y_POSITION: number = -370;
+    readonly GROUND_Y_POSITION: number = -320.505;
     readonly PLAYER_LIFE: number = 3;
 
     @property(cc.Node)
@@ -229,7 +230,7 @@ export default class TurtleController extends cc.Component {
             this.collisionY = -1;
         }
         // Update Camera position.
-        const camera = cc.Camera.main;
+        const camera = GamePlayerController.getInstance().movingCamera;
         camera.node.x += this.cameraSpeed * dt;
         // Update to calculate run distance
         if (!this.isDead && !this.respawning) {
@@ -252,7 +253,7 @@ export default class TurtleController extends cc.Component {
 
     checkPlayerOutOfScreen() {
         if (this.respawning || this.isDead) return;
-        const camera = cc.Camera.main;
+        const camera = GamePlayerController.getInstance().movingCamera;
         if (this.node.x + this.node.width / 2 <= camera.node.x - camera.node.width/2) {
             AudioManager.getInstance().play('hit');
             this.onPlayerDamage();
@@ -311,7 +312,7 @@ export default class TurtleController extends cc.Component {
     }
 
     resetPosition() {
-        const camera = cc.Camera.main;
+        const camera = GamePlayerController.getInstance().movingCamera;
         this.node.active = true;
         this.node.x = camera.node.x - camera.node.width * 0.2;
         this.node.y = this.GROUND_Y_POSITION;

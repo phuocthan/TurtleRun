@@ -8,7 +8,10 @@
     "Ground",
     "Box",
     "Scarecrow",
-    "Bird"
+    "Bird",
+    "FarBG",
+    "NearBG",
+    "NearestBG"
   ],
   "collision-matrix": [
     [
@@ -64,6 +67,42 @@
       false,
       false,
       true,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
       false,
       false,
       false,

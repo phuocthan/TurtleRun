@@ -24,7 +24,7 @@ export default class SpawnableObject extends cc.Component {
         this.node.y += this.velocity.y * dt;
 
         if (this.node.name === 'Bird' && !this.isSoundPlayed) {
-            const camera = cc.Camera.main;
+            const camera = GamePlayerController.getInstance().movingCamera;
             if (this.node.x - this.node.width / 2 <= camera.node.x + camera.node.width / 2) {
                 this.soundID = AudioManager.getInstance().play('crow');
                 this.isSoundPlayed = true;

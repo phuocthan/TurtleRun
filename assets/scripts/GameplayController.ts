@@ -36,6 +36,9 @@ export default class GamePlayerController extends cc.Component {
     @property(cc.Node)
     warningNode: cc.Node = null;
 
+    @property(cc.Camera)
+    movingCamera: cc.Camera = null;
+
     private spawnableObjectConfig = [];
 
     private timeToSpawn = 0;
@@ -55,8 +58,8 @@ export default class GamePlayerController extends cc.Component {
 
     updateCamera() {
         const canvas = cc.find("Canvas");
-        cc.Camera.main.node.width = canvas.width;
-        cc.Camera.main.node.height = canvas.height;
+        this.movingCamera.node.width = canvas.width;
+        this.movingCamera.node.height = canvas.height;
     }
 
     resetGamePlay() {
@@ -97,7 +100,7 @@ export default class GamePlayerController extends cc.Component {
     }
 
     private spawnObjects(dt) {
-        const camera = cc.Camera.main;
+        const camera = this.movingCamera;
         let breakLoop = false;
         if (this.delaySpawnTimeCount > 0) {
             this.delaySpawnTimeCount -= dt * TurtleController.getInstance().speedScale();
@@ -114,7 +117,7 @@ export default class GamePlayerController extends cc.Component {
                 }
                 const cloneObject = cc.instantiate(config.node) as cc.Node;
                 cloneObject.active = true;
-                cloneObject.x = cc.Camera.main.node.x + cc.Camera.main.node.width + 100;
+                cloneObject.x = this.movingCamera.node.x + this.movingCamera.node.width + 100;
 
 
                 if (config.offset.y > 0) {
@@ -173,7 +176,7 @@ export default class GamePlayerController extends cc.Component {
 
         var ground = cc.instantiate(this.groudnPrefab);
         ground.x = start ? 0 : this.lastGround.x + this.lastGround.width;
-        ground.y = start ? -424 : this.lastGround.y;
+        ground.y = start ? 0 : this.lastGround.y;
         this.backgroundParent.addChild(ground);
 
         this.lastGround = ground;
@@ -201,7 +204,7 @@ export default class GamePlayerController extends cc.Component {
             this.timeToSpawn = this.timeToSpawnNewBackground;
         }
 
-        const camera = cc.Camera.main;
+        const camera = this.movingCamera;
         // Destroy background & ground
         this.backgroundParent.children.forEach(node => {
             const offset = 200;
