@@ -2178,7 +2178,7 @@
       "__id__": 56
     },
     "_enabled": true,
-    "timeToSpawn": 10,
+    "timeToSpawn": 13,
     "rateToSpawn": 0.25,
     "offset": {
       "__type__": "cc.Vec2",
@@ -2193,7 +2193,7 @@
     "skipNextSpawn": true,
     "isStaticObject": false,
     "isObstacle": true,
-    "isDecoration": false,
+    "isDecoration": true,
     "_id": "a3VkCJZnpNp6sMtKK+Ak5J"
   },
   {
