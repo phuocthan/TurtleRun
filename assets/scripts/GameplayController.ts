@@ -108,7 +108,6 @@ export default class GamePlayerController extends cc.Component {
             if ((this.delaySpawnTimeCount > 0) && config.isObstacle) return;
             // The spawn time decrease base on a half of turtle current speed scale.
             config.currentTime -= dt * TurtleController.getInstance().speedScale();
-            console.log(config.currentTime);
             if (config.currentTime <= 0) {
                 if (Math.random() > config.rate) {
                     config.currentTime = config.spawnTime;

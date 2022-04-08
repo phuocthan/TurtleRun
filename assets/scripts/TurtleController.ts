@@ -37,6 +37,10 @@ export default class TurtleController extends cc.Component {
     jumpSpeed: number = 300;
     @property()
     doubleJumpSpeed: number = 1000;
+    @property(cc.Node)
+    frontBackground: cc.Node = null;
+    @property(cc.Camera)
+    frontCamera: cc.Camera = null;
 
     private collisionX: number = 0;
     private collisionY: number = 0;
@@ -249,7 +253,20 @@ export default class TurtleController extends cc.Component {
         if (this.invincibleDuration > 0) {
             this.invincibleDuration -= dt;
         }
+        
+        if (this.tailBackgroundNode === null) {
+            this.tailBackgroundNode = this.frontBackground.children[1];
+        }
+        this.frontBackground.children.forEach((bg) => {
+            bg.x -= this.cameraSpeed * dt * 1.35;
+            if (bg.x + bg.width / 2 <= this.frontCamera.node.x - this.frontCamera.node.width / 2) {
+                bg.x = this.tailBackgroundNode.x + this.tailBackgroundNode.width - 40 * this.speedScale();
+                this.tailBackgroundNode = bg;
+            }
+        })
     }
+
+    private tailBackgroundNode: cc.Node = null;
 
     checkPlayerOutOfScreen() {
         if (this.respawning || this.isDead) return;
