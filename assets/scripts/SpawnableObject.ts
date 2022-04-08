@@ -3,6 +3,8 @@ import GamePlayerController from "./GameplayController";
 
 const {ccclass, property} = cc._decorator;
 
+const destroyCallbackDuration = 1000;
+
 @ccclass
 export default class SpawnableObject extends cc.Component {
     @property()
@@ -15,6 +17,12 @@ export default class SpawnableObject extends cc.Component {
     velocity: cc.Vec2 = cc.v2(0, 0);
     @property()
     skipNextSpawn: boolean = false;
+    @property()
+    isStaticObject: boolean = true;
+    @property()
+    isObstacle: boolean = true;
+    @property()
+    isDecoration: boolean = false;
 
     private isSoundPlayed: boolean = false;
     private soundID: number = -1;
@@ -34,8 +42,10 @@ export default class SpawnableObject extends cc.Component {
     }
 
     protected onDestroy(): void {
-        if (this.soundID !== -1) {
-            cc.audioEngine.stop(this.soundID);
-        }
+        setTimeout(() => {
+            if (this.soundID !== -1) {
+                cc.audioEngine.stop(this.soundID);
+            }
+        }, destroyCallbackDuration);
     }
 }

@@ -10,7 +10,7 @@ export default class TurtleController extends cc.Component {
     private static instance: TurtleController = null;
     public static getInstance() {return this.instance};
 
-    readonly GROUND_Y_POSITION: number = -320.505;
+    readonly GROUND_Y_POSITION: number = -335;
     readonly PLAYER_LIFE: number = 3;
 
     @property(cc.Node)

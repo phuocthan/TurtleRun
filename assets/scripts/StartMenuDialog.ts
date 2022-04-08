@@ -1,11 +1,10 @@
 import AudioManager from "./AudioManager";
+import { GAME_VERSION } from "./Version";
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class StartMenuDialog extends cc.Component {
-
-    readonly GAME_VERSION: string = 'v1.2';
 
     @property(cc.Node)
     leaderboardDialog: cc.Node = null;
@@ -30,7 +29,7 @@ export default class StartMenuDialog extends cc.Component {
     }
 
     showVersion() {
-        this.versionLbl.string = this.GAME_VERSION;
+        this.versionLbl.string = GAME_VERSION;
     }
 
     showUserInfo() {

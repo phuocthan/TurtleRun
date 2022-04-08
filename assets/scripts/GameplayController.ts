@@ -39,14 +39,21 @@ export default class GamePlayerController extends cc.Component {
     @property(cc.Camera)
     movingCamera: cc.Camera = null;
 
+    @property()
+    minDistance: number = 1500;
+
     private spawnableObjectConfig = [];
 
     private timeToSpawn = 0;
     private lastBG: cc.Node = null;
     private lastGround: cc.Node = null;
-    private warningNodeOpacityCount: number = 0;
 
-    private canvas = null;
+    private spawnedObjects: cc.Node[] = [];
+    private delaySpawnTimeCount: number = 0;
+    public lastXPosition: number = 0;
+
+    readonly DELAY_SPAWN_DURATION = 3.5;
+
     start () {
         GamePlayerController.instance = this;
         cc.view.on('canvas-resize', () => {
@@ -84,59 +91,68 @@ export default class GamePlayerController extends cc.Component {
                 offset: object.offset,
                 rate: object.rateToSpawn,
                 node: object.node,
-                skipNextSpawn: object.skipNextSpawn
+                skipNextSpawn: object.skipNextSpawn,
+                isStaticObject: object.isStaticObject,
+                isObstacle: object.isObstacle,
+                isDecoration: object.isDecoration
             })
         })
     }
 
-    private spawnedObjects: cc.Node[] = [];
-    private delaySpawnTimeCount: number = 0;
-    private lastObjectType: string = null;
-
-    readonly DELAY_SPAWN_DURATION = 3.5;
-
-    private isObstacle(type) {
-        return type === 'Box' || type === 'Scarecrow';
-    }
-
     private spawnObjects(dt) {
         const camera = this.movingCamera;
-        let breakLoop = false;
         if (this.delaySpawnTimeCount > 0) {
             this.delaySpawnTimeCount -= dt * TurtleController.getInstance().speedScale();
         }
         this.spawnableObjectConfig.forEach(config => {
-            if (breakLoop) return;
-            if (this.delaySpawnTimeCount > 0 && this.isObstacle(config.type)) return;
+            if ((this.delaySpawnTimeCount > 0) && config.isObstacle) return;
             // The spawn time decrease base on a half of turtle current speed scale.
             config.currentTime -= dt * TurtleController.getInstance().speedScale();
+            console.log(config.currentTime);
             if (config.currentTime <= 0) {
-                config.currentTime = config.spawnTime;
                 if (Math.random() > config.rate) {
+                    config.currentTime = config.spawnTime;
                     return;
                 }
+
+                let targetX = this.movingCamera.node.x + this.movingCamera.node.width + 100;
+
+                if (!config.isStaticObject) {
+                    targetX += 1500 * TurtleController.getInstance().speedScale();
+                }
+
+                if (!config.isDecoration && targetX - this.lastXPosition < this.minDistance * TurtleController.getInstance().speedScale()) {
+                    return;
+                } 
+
+
+                if (!config.isDecoration) {
+                    this.lastXPosition = targetX;
+                }
+
                 const cloneObject = cc.instantiate(config.node) as cc.Node;
                 cloneObject.active = true;
-                cloneObject.x = this.movingCamera.node.x + this.movingCamera.node.width + 100;
-
+                cloneObject.x = targetX // this.movingCamera.node.x + this.movingCamera.node.width + 100;
 
                 if (config.offset.y > 0) {
                     cloneObject.y = cloneObject.y - Math.random() * config.offset.y;
                 }
 
-                config.node.parent.addChild(cloneObject);
-
-                if (config.type === 'Bird') {
-                    cloneObject.x += 1500 * TurtleController.getInstance().speedScale();
+                if (!config.isStaticObject) {
                     this.warningNode.active = true;
                     this.warningNode.y = this.warningNode.parent.convertToNodeSpaceAR(cloneObject.convertToWorldSpaceAR(cc.v2(0, 0))).y; //this.warningNode.convertToNodeSpaceAR(cloneObject.convertToWorldSpaceAR(cc.v2(0, 0))).y;
+                    // Mark this variable to not spawn other object.
+                    this.lastXPosition = cloneObject.x;
                 }
+
+                config.node.parent.addChild(cloneObject);
 
                 this.spawnedObjects.push(cloneObject);
                 if (config.skipNextSpawn) {
                     this.delaySpawnTimeCount = this.DELAY_SPAWN_DURATION;
-                    breakLoop = true;
                 }
+
+                config.currentTime = config.spawnTime;
                 
             }
         })
@@ -213,9 +229,5 @@ export default class GamePlayerController extends cc.Component {
             }
         })
         this.spawnObjects(dt);
-
-        this.warningNode.opacity = 100 + Math.sin(this.warningNodeOpacityCount / 30) * (200 - 100);
-        this.warningNodeOpacityCount += 1;
-
     }
 }
