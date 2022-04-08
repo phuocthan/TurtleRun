@@ -428,7 +428,7 @@
     "movingCamera": {
       "__id__": 126
     },
-    "minDistance": 2000,
+    "minDistance": 1500,
     "_id": "47HxgoNRVJh4jljIWvA/bq"
   },
   {
@@ -1255,7 +1255,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        208.619,
+        170.576,
         0,
         0,
         0,
@@ -1432,7 +1432,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        208.619,
+        170.576,
         0,
         0,
         0,
@@ -1609,7 +1609,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        235.602,
+        197.559,
         0,
         0,
         0,
@@ -1786,7 +1786,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        208.619,
+        170.576,
         0,
         0,
         0,
@@ -1964,7 +1964,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        263.57,
+        225.527,
         0,
         0,
         0,
@@ -2190,7 +2190,7 @@
       "x": -450,
       "y": 0
     },
-    "skipNextSpawn": true,
+    "skipNextSpawn": false,
     "isStaticObject": false,
     "isObstacle": true,
     "isDecoration": true,
@@ -6691,7 +6691,7 @@
       "ctor": "Float64Array",
       "array": [
         -221.146,
-        -334.755,
+        -372.798,
         0,
         0,
         0,
@@ -6910,14 +6910,14 @@
     },
     "maxSpeed": {
       "__type__": "cc.Vec2",
-      "x": 820,
+      "x": 1200,
       "y": 3000
     },
     "gravity": -9000,
     "drag": 1000,
-    "maxDrag": 2000,
-    "dragStep": 20,
-    "dragStepIncreaseDuration": 2,
+    "maxDrag": 2200,
+    "dragStep": 35,
+    "dragStepIncreaseDuration": 1.75,
     "direction": 1,
     "jumpSpeed": 2400,
     "doubleJumpSpeed": 1800,
@@ -6944,7 +6944,7 @@
         "__id__": 165
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 167
