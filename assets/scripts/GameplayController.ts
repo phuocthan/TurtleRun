@@ -120,7 +120,7 @@ export default class GamePlayerController extends cc.Component {
                     targetX += 1500 * TurtleController.getInstance().speedScale();
                 }
 
-                if (!config.isDecoration && targetX - this.lastXPosition < this.minDistance * TurtleController.getInstance().speedScale() / 2) {
+                if (!config.isDecoration && targetX - this.lastXPosition < this.minDistance * TurtleController.getInstance().speedScale() / 1.4) {
                     return;
                 } 
 
