@@ -3,34 +3,8 @@
 <head>
   <meta charset="utf-8">
 
-  <title>IndiaEnergyLeague</title>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-194833581-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-  
-    gtag('config', 'UA-194833581-1');
-  </script>
-  
-  <!-- Facebook Pixel Code -->
-  <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '974086673418957');
-  fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=974086673418957&ev=PageView&noscript=1"
-  /></noscript>
-  <!-- End Facebook Pixel Code -->
+  <title>Cocos Creator | Turtlies</title>
+
   <!--http://www.html5rocks.com/en/mobile/mobifying/-->
   <meta name="viewport"
         content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1"/>
@@ -53,8 +27,8 @@
   <meta name="360-fullscreen" content="true"/>
   
   <!-- force screen orientation on some browser -->
-  <meta name="screen-orientation" content=""/>
-  <meta name="x5-orientation" content="">
+  <meta name="screen-orientation" content="landscape"/>
+  <meta name="x5-orientation" content="landscape">
 
   <!--fix fireball/issues/3568 -->
   <!--<meta name="browsermode" content="application">-->
@@ -63,103 +37,22 @@
   <!--<link rel="apple-touch-icon" href=".png" />-->
   <!--<link rel="apple-touch-icon-precomposed" href=".png" />-->
 
-  <link rel="stylesheet" type="text/css" href="style-mobile.0604d.css"/>
+  <link rel="stylesheet" type="text/css" href="style-mobile.a048b.css"/>
   <link rel="icon" href="favicon.8de18.ico"/>
-  
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-  <script>Pi.init({ version: "2.0", sandbox: true })</script>
-
-
 </head>
-<body onresize="onResize()" onscroll="myScroll()">
+<body>
   <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
-  <div id="noportrait" style="visibility:hidden">
-  </div>  
-  <div id = "splash">
-     <img id="game-logo" src="./logo.1efc1.png">
-
-      <div class="progress-bar stripes">
-        <span style="width: 0%"></span>
-      </div>
+  <div id="splash">
+     <img id="game-logo" src="./logo.b7aab.png">
+     <img id="game-logo2" src="./Turtle.107e9.png">
+    <div class="progress-bar stripes">
+      <span style="width: 0%"></span>
+    </div>
   </div>
-  <div class="frameVideo" id = "youtubeVideo">
-		<img src="Video_frame.png" style="
-			height :100%;
-			width  : 100%;
-			">
-		<iframe id="player" width="640" height="480" src="https://www.youtube.com/embed/?enablejsapi=1" frameborder="0" allowfullscreen
-		></iframe>
 
-  </div> 
+<script src="src/settings.c365c.js" charset="utf-8"></script>
 
-  <script>
-    // 2. This code loads the IFrame Player API code asynchronously.
-    window.ytVideoStatus = -1;
-	    window.setVideoUrl = (function(a) {
-		 var video = document.getElementById('youtubeVideo');
-        "use strict";
-        console.log('call setVideoUrl from ts',a);
-		player.loadVideoById(a);
-    });
-	    window.activeVideo = (function(active) {
-		 var video = document.getElementById('youtubeVideo');
-        "use strict";
-        console.log('call setVideoUrl from ts',active);
-		if(active) {
-			video.style.display = 'block';
-		}
-		else {
-			video.style.display = 'none';
-			player.stopVideo();
-		}
-    });	
-    var tag = document.createElement('script');
-
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    // 3. This function creates an <iframe> (and YouTube player)
-    //    after the API code downloads.
-    var player;
-    function onYouTubeIframeAPIReady() {
-      console.log('onYouTubeIframeAPIReady Loaded 22222')
-      player = new YT.Player('player', {
-        height: '480',
-        width: '640',
-        videoId: '',
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
-        }
-      });
-    }
-
-    // 4. The API will call this function when the video player is ready.
-    function onPlayerReady(event) {
-	
-    }
-
-    // 5. The API calls this function when the player's state changes.
-    //    The function indicates that when playing a video (state=1),
-    //    the player should play for six seconds and then stop.
-    var done = false;
-    function onPlayerStateChange(event) {
-      window.ytVideoStatus = event.data;
-      // if (event.data == YT.PlayerState.PLAYING && !done) { 
-      //   setTimeout(stopVideo, 6000);
-      //   done = true; 
-      // }
-    }
-    function stopVideo() {
-      player.stopVideo();
-    }
-  </script>
-
-
-<script src="src/settings.80ee6.js?version=1.7" charset="utf-8"></script>
-
-<script src="main.dbf0f.js?version=1.7" charset="utf-8"></script>
+<script src="main.94b4e.js" charset="utf-8"></script>
 
 <script type="text/javascript">
 (function () {
@@ -170,7 +63,7 @@
 
     var debug = window._CCSettings.debug;
     var splash = document.getElementById('splash');
-    // splash.style.display = 'block';
+    splash.style.display = 'block';
 
     function loadScript (moduleName, cb) {
       function scriptLoaded () {
@@ -185,9 +78,9 @@
       document.body.appendChild(domScript);
     }
 
-    loadScript(debug ? 'cocos2d-js.js' : 'cocos2d-js-min.2b9e3.js', function () {
+    loadScript(debug ? 'cocos2d-js.js' : 'cocos2d-js-min.47034.js', function () {
       if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
-        loadScript(debug ? 'physics.js' : 'physics-min.b6620.js', window.boot);
+        loadScript(debug ? 'physics.js' : 'physics-min.ce5ee.js', window.boot);
       }
       else {
         window.boot();
