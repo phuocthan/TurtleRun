@@ -1,7 +1,6 @@
 {
-  "ver": "2.3.7",
+  "ver": "2.3.5",
   "uuid": "da292b12-fc0a-4ab8-a2a6-50f5b8885942",
-  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -13,9 +12,8 @@
   "platformSettings": {},
   "subMetas": {
     "Turtle": {
-      "ver": "1.0.6",
+      "ver": "1.0.4",
       "uuid": "674ee1e5-ed97-4fd5-bd9e-9b0bf5a889df",
-      "importer": "sprite-frame",
       "rawTextureUuid": "da292b12-fc0a-4ab8-a2a6-50f5b8885942",
       "trimType": "auto",
       "trimThreshold": 1,

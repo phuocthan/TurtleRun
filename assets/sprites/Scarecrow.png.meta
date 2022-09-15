@@ -1,7 +1,6 @@
 {
-  "ver": "2.3.7",
+  "ver": "2.3.5",
   "uuid": "15454cfb-c77a-404d-9499-97872d38ddc7",
-  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -13,9 +12,8 @@
   "platformSettings": {},
   "subMetas": {
     "Scarecrow": {
-      "ver": "1.0.6",
+      "ver": "1.0.4",
       "uuid": "8763f2c7-c3ea-41ee-9d12-3cbf08d27ae0",
-      "importer": "sprite-frame",
       "rawTextureUuid": "15454cfb-c77a-404d-9499-97872d38ddc7",
       "trimType": "auto",
       "trimThreshold": 1,
