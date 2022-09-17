@@ -11,7 +11,7 @@ export default class TurtleController extends cc.Component {
     public static getInstance() {return this.instance};
 
     readonly GROUND_Y_POSITION: number = -372;
-    readonly PLAYER_LIFE: number = 3;
+    readonly PLAYER_LIFE: number = 2;
 
     @property(cc.Node)
     touchNode: cc.Node = null;
@@ -73,6 +73,7 @@ export default class TurtleController extends cc.Component {
         UIController.getInstance().updateUI({distance: this.runDistance, life: this.currentPlayerLife});
         UIController.getInstance().showTutorialText();
         this.resetPosition();
+        cc.systemEvent.on('respawn', this.respawn.bind(this))
     }
 
     onTouchStart() {
@@ -166,10 +167,10 @@ export default class TurtleController extends cc.Component {
     }
 
     onPressJump() {
-        if (this.respawning) {
-            this.respawn();
-            return;
-        }
+        // if (this.respawning) {
+        //     this.respawn();
+        //     return;
+        // }
         if (!this.jumping) {
             this.jumping = true;
             this.speed.y = this.jumpSpeed > this.maxSpeed.y ? this.maxSpeed.y : this.jumpSpeed;
@@ -313,12 +314,18 @@ export default class TurtleController extends cc.Component {
         cc.tween(this.node).to(0.1, {opacity: 0}).start();
         this.currentPlayerLife -= 1;
         UIController.getInstance().updateUI({life: this.currentPlayerLife});
-        if (this.currentPlayerLife <= 0) {
-            this.onPlayerDie();
-        } else {
+        if ( this.currentPlayerLife === 1) {
             this.respawning = true;
             UIController.getInstance().showRespawnText();
+            return;
         }
+        if (this.currentPlayerLife <= 0) {
+            this.onPlayerDie();
+        }
+        //  else {
+        //     this.respawning = true;
+        //     UIController.getInstance().showRespawnText();
+        // }
     }
 
     onPlayerDie() {
@@ -336,6 +343,7 @@ export default class TurtleController extends cc.Component {
     }
 
     respawn() {
+        console.log('@@@ respawn')
         this.node.opacity = 0;
         cc.tween(this.node).to(0.25, {opacity: 255}).start();
         this.resetPosition();

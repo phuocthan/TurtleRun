@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "12cac3a5-ea32-4c67-b2fb-beaf540b35d1",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "Shape_popup_background_1": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "dad61a8c-e700-4459-820c-67c1363a9c3b",
+      "importer": "sprite-frame",
       "rawTextureUuid": "12cac3a5-ea32-4c67-b2fb-beaf540b35d1",
       "trimType": "auto",
       "trimThreshold": 1,

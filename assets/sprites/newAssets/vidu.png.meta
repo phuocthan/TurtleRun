@@ -1,6 +1,7 @@
 {
-  "ver": "2.3.5",
+  "ver": "2.3.7",
   "uuid": "b31f68b9-f7a8-46b6-a7ab-16f20ad57687",
+  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -12,8 +13,9 @@
   "platformSettings": {},
   "subMetas": {
     "vidu": {
-      "ver": "1.0.4",
+      "ver": "1.0.6",
       "uuid": "0fe161af-9495-435e-9a52-de0079559cf9",
+      "importer": "sprite-frame",
       "rawTextureUuid": "b31f68b9-f7a8-46b6-a7ab-16f20ad57687",
       "trimType": "auto",
       "trimThreshold": 1,

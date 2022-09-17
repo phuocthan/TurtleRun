@@ -1,3 +1,4 @@
+import AdsManager from "./AdsManager";
 import AudioManager from "./AudioManager";
 import { GAME_VERSION } from "./Version";
 
@@ -26,6 +27,7 @@ export default class StartMenuDialog extends cc.Component {
         this.showUserInfo();
 
         AudioManager.getInstance().playMusic('bgm');
+        // AdsManager.inst.showBanner();
     }
 
     showVersion() {
@@ -53,6 +55,10 @@ export default class StartMenuDialog extends cc.Component {
     }
 
     onStartGame() {
+        if( cc.sys.isMobile && cc.sys.os === cc.sys.OS_ANDROID) {
+            jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "showBannerAd", "()V");
+        }
+
         this.playClickSE();
         if (!localStorage.getItem("playerName")) {
             return;
@@ -62,6 +68,8 @@ export default class StartMenuDialog extends cc.Component {
             lastScene.parent = null;
             lastScene.destroy();
         });
+        // AdsManager.inst.cacheInterstitial();
+        // AdsManager.inst.showInterstitial();
     }
 
     onLeaderboard() {

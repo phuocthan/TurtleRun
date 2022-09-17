@@ -69,6 +69,16 @@ export default class UIController extends cc.Component {
         cc.tween(this.respawnText).to(0.25, {scaleX: 1.0, scaleY: 1.0}).start();
     }
 
+    onReviveBtnClick() {
+        // this.respawnText.scaleX = 0;
+        // this.respawnText.scaleY = 0;
+        // this.respawnText.active = true;
+        // cc.tween(this.respawnText).to(0.25, {scaleX: 1.0, scaleY: 1.0}).start();
+        cc.systemEvent.emit('respawn');
+
+
+    }
+
     hideRespawnText() {
         cc.tween(this.respawnText).to(0.25, {scaleX: 0.0, scaleY: 0.0}).start();
     }
@@ -91,6 +101,7 @@ export default class UIController extends cc.Component {
     }
 
     onPlayAgain() {
+        // cc.systemEvent.emit('respawn');
         AudioManager.getInstance().play('click');
         cc.tween(this.gameOverDialog).to(0.25, {scaleX: 0, scaleY: 0}).call(() => {
             const lastScene = cc.director.getScene();
@@ -101,6 +112,7 @@ export default class UIController extends cc.Component {
                 });
             }).start();
         }).start();
+
         
     }
 

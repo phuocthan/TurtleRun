@@ -42,6 +42,9 @@ export default class GamePlayerController extends cc.Component {
     @property()
     minDistance: number = 1500;
 
+    @property(TurtleController)
+    turtle: TurtleController = null;
+
     private spawnableObjectConfig = [];
 
     private timeToSpawn = 0;
@@ -212,7 +215,6 @@ export default class GamePlayerController extends cc.Component {
     }
 
     update (dt) {
-
         this.timeToSpawn -= dt;
         if (this.timeToSpawn <= 0) {
             this.spawnBackground();
