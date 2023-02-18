@@ -103,9 +103,7 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "8763f2c7-c3ea-41ee-9d12-3cbf08d27ae0"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -238,6 +236,15 @@
       "x": 0,
       "y": 0
     },
+    "velocity": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "skipNextSpawn": false,
+    "isStaticObject": true,
+    "isObstacle": true,
+    "isDecoration": false,
     "_id": ""
   },
   {
@@ -246,7 +253,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "39b30064-7079-4970-acaf-d759e8bc34f4"
+      "__id__": 0
     },
     "fileId": "",
     "sync": false

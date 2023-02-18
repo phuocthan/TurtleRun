@@ -102,8 +102,8 @@ public class AppActivity extends Cocos2dxActivity {
 
         mAdView.setAdSize(AdSize.FLUID);
 
-        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
-        //mAdView.setAdUnitId("ca-app-pub-7656747978045245/4062066457");
+        // mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        mAdView.setAdUnitId("ca-app-pub-7656747978045245/4062066457");
 
         
 
@@ -272,7 +272,8 @@ public class AppActivity extends Cocos2dxActivity {
               //  mAdView.loadAd(adRequest);
 
 
-                InterstitialAd.load(app,"ca-app-pub-3940256099942544/1033173712", adRequest,
+                InterstitialAd.load(app,"ca-app-pub-7656747978045245/8604232101", adRequest,
+                // InterstitialAd.load(app,"ca-app-pub-3940256099942544/1033173712", adRequest,
                         new InterstitialAdLoadCallback() {
                             @Override
                             public void onAdLoaded(InterstitialAd interstitialAd) {

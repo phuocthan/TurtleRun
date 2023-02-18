@@ -19,7 +19,8 @@
                    android:value="cocos2djs" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="ca-app-pub-7656747978045245~8626614530"/>
+            <!-- android:value="ca-app-pub-3940256099942544~3347511713"/> -->
         <activity
             android:name="org.cocos2dx.javascript.AppActivity"
             android:screenOrientation="sensorLandscape"
