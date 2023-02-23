@@ -25,6 +25,11 @@ export default class UIController extends cc.Component {
 
     @property(cc.Node)
     tutorialText: cc.Node = null;
+    @property(cc.Node)
+    touchRevive: cc.Node = null;
+
+    @property(cc.Node)
+    transcene: cc.Node = null;
 
     private currentScore: number = 0;
 
@@ -43,7 +48,7 @@ export default class UIController extends cc.Component {
         if (distance != null) {
             var meter = Math.floor(distance / 38);
             this.currentScore = meter;
-            this.runDistanceLabel.string = "Score: " + meter.toString().padStart(7, '0');
+            this.runDistanceLabel.string = "" + meter.toString().padStart(7, '0');
         }
     }
 
@@ -60,6 +65,17 @@ export default class UIController extends cc.Component {
 
     hideTutorialText() {
         cc.tween(this.tutorialText).to(0.25, {scaleX: 0.0, scaleY: 0.0}).start();
+    }
+
+    touchReviveText() {
+        this.touchRevive.scaleX = 0;
+        this.touchRevive.scaleY = 0;
+        this.touchRevive.active = true;
+        cc.tween(this.touchRevive).to(0.25, {scaleX: 1.0, scaleY: 1.0}).start();
+    }
+
+    hideReviveText() {
+        cc.tween(this.touchRevive).to(0.25, {scaleX: 0.0, scaleY: 0.0}).start();
     }
 
     showRespawnText() {
@@ -103,12 +119,19 @@ export default class UIController extends cc.Component {
     onPlayAgain() {
         // cc.systemEvent.emit('respawn');
         AudioManager.getInstance().play('click');
+        this.transcene.active = true;
+        this.transcene.opacity = 0;
+
+        // cc.tween(this.transcene).to(0.15, {opacity: 255})
+        // .start();
+
         cc.tween(this.gameOverDialog).to(0.25, {scaleX: 0, scaleY: 0}).call(() => {
             const lastScene = cc.director.getScene();
             cc.tween(lastScene).to(0.5, {opacity: 0}).call(() => {
                 cc.director.loadScene("JumpingTurtle", () => {
                     lastScene.parent = null;
                     lastScene.destroy();
+                    // this.transcene.active = false;
                 });
             }).start();
         }).start();

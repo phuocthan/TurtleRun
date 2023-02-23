@@ -139,5 +139,6 @@
   "migrate-history": [
     "cloud-function"
   ],
-  "start-scene": "f40b5856-272d-429e-883c-ab7d974f35c0"
+  "start-scene": "f40b5856-272d-429e-883c-ab7d974f35c0",
+  "assets-sort-type": "name"
 }

@@ -21,6 +21,8 @@ export default class StartMenuDialog extends cc.Component {
 
     @property(cc.Label)
     versionLbl: cc.Label = null;
+    @property(cc.Label)
+    mustInputNameLbl: cc.Label = null;
 
     start () {
         this.showVersion();
@@ -35,6 +37,8 @@ export default class StartMenuDialog extends cc.Component {
     }
 
     showUserInfo() {
+        this.playerNameLbl.node.active = false;
+        this.mustInputNameLbl.node.active = false;
         this.bestScoreLbl.string = localStorage.getItem("bestScore") || "0";
         let playerName = localStorage.getItem("playerName");
         if (playerName) {
@@ -43,7 +47,15 @@ export default class StartMenuDialog extends cc.Component {
         }
     }
 
+    onBeginEnterName() {
+        this.mustInputNameLbl.node.active = false;
+    }
+
     onFinishEnterName() {
+        if (this.nameEditBox.string.length === 0) {
+            this.mustInputNameLbl.node.active = true;
+            return
+        }
         this.nameEditBox.node.active = false;
         this.playerNameLbl.string = this.nameEditBox.string;
         this.playerNameLbl.node.active = true;
@@ -61,6 +73,7 @@ export default class StartMenuDialog extends cc.Component {
 
         this.playClickSE();
         if (!localStorage.getItem("playerName")) {
+            this.mustInputNameLbl.node.active = true;
             return;
         }
         const lastScene = cc.director.getScene();

@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Tree",
+    "_name": "Light",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -24,10 +24,13 @@
       },
       {
         "__id__": 3
+      },
+      {
+        "__id__": 4
       }
     ],
     "_prefab": {
-      "__id__": 4
+      "__id__": 5
     },
     "_opacity": 255,
     "_color": {
@@ -39,8 +42,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 153,
-      "height": 161
+      "width": 49,
+      "height": 318
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -51,15 +54,15 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        606.57,
-        350.806,
+        736,
+        457.846,
         0,
         0,
         0,
         0,
         1,
-        3,
-        3,
+        -1,
+        1,
         3
       ]
     },
@@ -92,7 +95,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "0cadbe07-48db-467f-8815-695763897c17"
+      "__uuid__": "0d02e34c-3563-4e36-8a8e-b4d2d7e1fd29"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -116,8 +119,48 @@
       "__id__": 1
     },
     "_enabled": true,
-    "timeToSpawn": 4,
-    "rateToSpawn": 0.75,
+    "timeToSpawn": 1,
+    "rateToSpawn": 1,
+    "offset": {
+      "__type__": "cc.Vec2",
+      "x": 150,
+      "y": 0
+    },
+    "velocity": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "skipNextSpawn": false,
+    "isStaticObject": true,
+    "isObstacle": false,
+    "isDecoration": true,
+    "_id": ""
+  },
+  {
+    "__type__": "30e82oGJHNP2oVC/cTfY7Go",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "timeToSpawn": 6,
+    "rateToSpawn": 0.5,
+    "offset": {
+      "__type__": "cc.Vec2",
+      "x": 150,
+      "y": 0
+    },
+    "velocity": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "skipNextSpawn": false,
+    "isStaticObject": true,
+    "isObstacle": false,
+    "isDecoration": true,
     "_id": ""
   },
   {

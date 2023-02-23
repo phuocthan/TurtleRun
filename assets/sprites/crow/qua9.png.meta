@@ -1,7 +1,6 @@
 {
-  "ver": "2.3.7",
+  "ver": "2.3.4",
   "uuid": "c3d6e1fb-5049-49b8-b95b-babf0a638c28",
-  "importer": "texture",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
@@ -13,9 +12,8 @@
   "platformSettings": {},
   "subMetas": {
     "qua9": {
-      "ver": "1.0.6",
+      "ver": "1.0.4",
       "uuid": "731eb72b-a90e-473a-a3c2-90a7c7f043ef",
-      "importer": "sprite-frame",
       "rawTextureUuid": "c3d6e1fb-5049-49b8-b95b-babf0a638c28",
       "trimType": "none",
       "trimThreshold": 1,

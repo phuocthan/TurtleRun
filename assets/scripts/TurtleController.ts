@@ -10,8 +10,8 @@ export default class TurtleController extends cc.Component {
     private static instance: TurtleController = null;
     public static getInstance() {return this.instance};
 
-    readonly GROUND_Y_POSITION: number = -372;
-    readonly PLAYER_LIFE: number = 2;
+    readonly GROUND_Y_POSITION: number = -230;
+    readonly PLAYER_LIFE: number = 3;
 
     @property(cc.Node)
     touchNode: cc.Node = null;
@@ -24,13 +24,13 @@ export default class TurtleController extends cc.Component {
     @property()
     gravity: number = -1000;
     @property()
-    drag: number = 1000;
+    drag: number = 100;
     @property()
     maxDrag: number = 3000;
     @property()
-    dragStep: number = 100;
+    dragStep: number = 50;
     @property()
-    dragStepIncreaseDuration: number = 1.5;
+    dragStepIncreaseDuration: number = 1;
     @property()
     direction: number = 1;
     @property()
@@ -73,7 +73,6 @@ export default class TurtleController extends cc.Component {
         UIController.getInstance().updateUI({distance: this.runDistance, life: this.currentPlayerLife});
         UIController.getInstance().showTutorialText();
         this.resetPosition();
-        cc.systemEvent.on('respawn', this.respawn.bind(this))
     }
 
     onTouchStart() {
@@ -167,10 +166,11 @@ export default class TurtleController extends cc.Component {
     }
 
     onPressJump() {
-        // if (this.respawning) {
-        //     this.respawn();
-        //     return;
-        // }
+        if (this.respawning) {
+            this.respawn();
+            UIController.getInstance().hideReviveText();
+            return;
+        }
         if (!this.jumping) {
             this.jumping = true;
             this.speed.y = this.jumpSpeed > this.maxSpeed.y ? this.maxSpeed.y : this.jumpSpeed;
@@ -222,6 +222,7 @@ export default class TurtleController extends cc.Component {
             this.speed.x = 0;
         }
         // Update player position base on speed.
+        // console.log('@@@ this.speed.x ',this.speed.x)
         this.node.x += this.speed.x * dt;
         this.node.y += this.speed.y * dt;
         // Check if player has touched the ground or not.
@@ -314,18 +315,16 @@ export default class TurtleController extends cc.Component {
         cc.tween(this.node).to(0.1, {opacity: 0}).start();
         this.currentPlayerLife -= 1;
         UIController.getInstance().updateUI({life: this.currentPlayerLife});
-        if ( this.currentPlayerLife === 1) {
-            this.respawning = true;
-            UIController.getInstance().showRespawnText();
-            return;
-        }
         if (this.currentPlayerLife <= 0) {
             this.onPlayerDie();
+        } else {
+            this.respawning = true;
+            UIController.getInstance().touchReviveText();
+            // setTimeout( () => {
+            //     this.onPressJump()
+            // }, 1500)
+
         }
-        //  else {
-        //     this.respawning = true;
-        //     UIController.getInstance().showRespawnText();
-        // }
     }
 
     onPlayerDie() {
@@ -343,7 +342,6 @@ export default class TurtleController extends cc.Component {
     }
 
     respawn() {
-        console.log('@@@ respawn')
         this.node.opacity = 0;
         cc.tween(this.node).to(0.25, {opacity: 255}).start();
         this.resetPosition();

@@ -37,7 +37,8 @@ export default class LeaderboardDialog extends cc.Component {
             rankItem.children[0].getComponent(cc.Label).string = `#${index + 1}. ${user.name}`;
             rankItem.children[1].getComponent(cc.Label).string = `${user.score}`;
             if (user['isYou']) {
-                rankItem.color = new cc.Color(218, 248, 140);
+                // rankItem.color = new cc.Color(218, 248, 140);
+                rankItem.color = cc.Color.BLACK.fromHEX('#1EFA52')
             }
             this.scrollView.content.addChild(rankItem);
         })

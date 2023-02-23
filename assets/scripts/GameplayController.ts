@@ -1,5 +1,6 @@
 import AudioManager from "./AudioManager";
-import SpawnableObject from "./SpawnableObject";
+import SpawnAbleObjs from "./SpawnAbleObjs";
+import SpawnObj from "./SpawnObj";
 import TurtleController from "./TurtleController";
 
 const {ccclass, property} = cc._decorator;
@@ -27,8 +28,6 @@ export default class GamePlayerController extends cc.Component {
     @property(cc.Node)
     obstacleParent: cc.Node = null;
 
-    @property([SpawnableObject])
-    spawnableObjects: SpawnableObject[] = [];
 
     @property(AudioManager)
     audioManager: AudioManager = null;
@@ -43,9 +42,12 @@ export default class GamePlayerController extends cc.Component {
     minDistance: number = 1500;
 
     @property(TurtleController)
-    turtle: TurtleController = null;
+    turtle: TurtleController = null
 
-    private spawnableObjectConfig = [];
+    @property(SpawnObj)
+    SpawnObjArr: SpawnObj[] = []
+
+    private SpawnAbleObjsConfig = [];
 
     private timeToSpawn = 0;
     private lastBG: cc.Node = null;
@@ -85,9 +87,9 @@ export default class GamePlayerController extends cc.Component {
     }
 
     private setupToSpawnObjects() {
-        this.spawnableObjectConfig = [];
-        this.spawnableObjects.forEach((object: SpawnableObject) => {
-            this.spawnableObjectConfig.push({
+        this.SpawnAbleObjsConfig = [];
+        this.SpawnObjArr.forEach((object: SpawnObj) => {
+            this.SpawnAbleObjsConfig.push({
                 type: object.node.name,
                 currentTime: object.timeToSpawn,
                 spawnTime: object.timeToSpawn,
@@ -107,7 +109,7 @@ export default class GamePlayerController extends cc.Component {
         if (this.delaySpawnTimeCount > 0) {
             this.delaySpawnTimeCount -= dt * TurtleController.getInstance().speedScale();
         }
-        this.spawnableObjectConfig.forEach(config => {
+        this.SpawnAbleObjsConfig.forEach(config => {
             if ((this.delaySpawnTimeCount > 0) && config.isObstacle) return;
             // The spawn time decrease base on a half of turtle current speed scale.
             config.currentTime -= dt * TurtleController.getInstance().speedScale();
